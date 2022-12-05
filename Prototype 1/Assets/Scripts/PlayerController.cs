@@ -4,32 +4,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private bool _forward = false;
-    public float _speed = 30.0f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float _speed;
+    public float _turnSpeed;
+
+    public float _horizontalInput;
+    public float _verticalInput;
 
     // Update is called once per frame
     void Update()
     {
-        if (_forward) {
-            transform.Translate(Vector3.forward * Time.deltaTime * _speed);
-        } else {
-            transform.Translate(Vector3.zero);
-        }
+        // Get input to move the vehicle
+        _horizontalInput = Input.GetAxis("Horizontal");   
+        _verticalInput = Input.GetAxis("Vertical");
 
-        // Move the vehicle forward
-        if(Input.GetKeyDown(KeyCode.W)) {
-            _forward = true;
-        }
-
-        if(Input.GetKeyUp(KeyCode.W)) {
-            _forward = false;
-        } 
-        
-        
+        // Move the vehicle
+        transform.Translate(Vector3.forward * Time.deltaTime * _speed * _verticalInput);            
+        //transform.Translate(Vector3.right * Time.deltaTime * _turnSpeed * _horizontalInput);
+        transform.Rotate(Vector3.up, Time.deltaTime * _turnSpeed * _horizontalInput);
     }
 }
